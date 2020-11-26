@@ -1,19 +1,7 @@
-.PHONY: install
-install:
-	pip install mkdocs==1.0.4
-	pip install mkdocs-material==3.0.4
-	pip install Markdown==3.0.1
+.PHONY: render
+render:
+	cargo run --manifest-path data/render/Cargo.toml -- --tags data/tags.yml --tools data/tools --out README.md
 
-.PHONY: link
-link:
-	ln -sf $(CURDIR)/README.md $(CURDIR)/docs/index.md
-	ln -sf $(CURDIR)/awesome.png $(CURDIR)/docs/awesome.png
-
-.PHONY: serve
-serve: link
-	mkdocs serve
-
-.PHONY: deploy
-deploy: link
-	mkdocs gh-deploy
-
+.PHONY: render-skip-deprecated
+render-skip-deprecated:
+	cargo run --manifest-path data/render/Cargo.toml -- --tags data/tags.yml --tools data/tools --out README.md --skip-deprecated
